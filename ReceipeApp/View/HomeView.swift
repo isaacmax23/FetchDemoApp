@@ -14,7 +14,7 @@ struct HomeView: View {
     
     var body: some View {
         
-        // onboardig view appears only for cold start sessions
+        // onboarding view appears only for cold start sessions
         if !isOnboardingComplete {
             OnboardingView()
                 .onAppear {
@@ -26,7 +26,7 @@ struct HomeView: View {
         } else {
             NavigationView {
                 VStack {
-                    HeadingView(text: "Receipes") // Reusable view for headings
+                    HeadingView(text: "Recipes") // Reusable view for headings
                     
                     ClippedTextField(text: $searchText) // Search bar field
                         .padding([.leading,.trailing])

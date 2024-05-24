@@ -47,7 +47,7 @@ struct DessertMainView: View {
         .padding(.all)
         .task {
             do{
-             meal = try await ReceipeAPI().fetchReceipe(mealID: mealId) // directly call the fetch meal receipe API
+             meal = try await RecipeAPI().fetchReceipe(mealID: mealId) // directly call the fetch meal receipe API
             } catch {
                 meal = nil
             }

@@ -9,7 +9,7 @@ import Foundation
 
 
 // wrapper struct to get list of desserts
-struct Receipe: Codable {
+struct Recipe: Codable {
     let meals: [Dessert]
 }
 
