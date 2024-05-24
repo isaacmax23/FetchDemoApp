@@ -9,13 +9,13 @@ import Foundation
 let desserrtsURL = "https://themealdb.com/api/json/v1/1/filter.php?c=Dessert"
 let receipeURL = "https://themealdb.com/api/json/v1/1/lookup.php?i="
 
-class ReceipeAPI {
+class RecipeAPI {
     
     // fetch list of meals
     func fetchDessertList() async throws -> [Dessert] {
         let url = URL(string: desserrtsURL)!
         let (data, _) = try await URLSession.shared.data(from: url)
-        let receipe = try JSONDecoder().decode(Receipe.self, from: data)
+        let receipe = try JSONDecoder().decode(Recipe.self, from: data)
         return receipe.meals
     }
     

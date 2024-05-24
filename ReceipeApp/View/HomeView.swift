@@ -26,7 +26,7 @@ struct HomeView: View {
         } else {
             NavigationView {
                 VStack {
-                    HeadingView(text: "Receipes") // Reusable view for headings
+                    HeadingView(text: "Recipes") // Reusable view for headings
                     
                     ClippedTextField(text: $searchText) // Search bar field
                         .padding([.leading,.trailing])
