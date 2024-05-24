@@ -13,6 +13,8 @@ struct HomeView: View {
     @State private var isOnboardingComplete = false
     
     var body: some View {
+        
+        // onboardig view appears only for cold start sessions
         if !isOnboardingComplete {
             OnboardingView()
                 .onAppear {
@@ -24,12 +26,12 @@ struct HomeView: View {
         } else {
             NavigationView {
                 VStack {
-                    HeadingView(text: "Receipes")
+                    HeadingView(text: "Receipes") // Reusable view for headings
                     
-                    ClippedTextField(text: $searchText)
+                    ClippedTextField(text: $searchText) // Search bar field
                         .padding([.leading,.trailing])
                         .frame(alignment: .top)
-                    if dessertList.count > 0 {
+                    if dessertList.count > 0 { // Helps display  Warning when API calls are failing
                         ScrollViewReader { proxy in
                             HStack {
                                 List(dessertList.filter {
@@ -39,26 +41,26 @@ struct HomeView: View {
                                     NavigationLink {
                                         DessertMainView(mealId: dessert.idMeal)
                                     } label: {
-                                        DessertListView(name: dessert.strMeal, url: dessert.strMealThumb, qty: nil)
+                                        DessertListView(name: dessert.strMeal, url: dessert.strMealThumb, qty: nil) // Reusable List Row
                                     }
                                 }
                                 Spacer()
-                                ScrollIndexView(dessertList: dessertList , proxy: proxy)
+                                ScrollIndexView(dessertList: dessertList , proxy: proxy) // Scroll Index to easily navigate list view
                             }
                         }
                         .padding()
                     } else {
-                        Text("Loading ...")
+                        Text("Loading ... No Network connection") // Temporary message indicating that something is wrong with network
                         Spacer()
                     }
                     
                 }
                 .task {
-                    dessertList = await HomeViewModel().loadDessertsList() ?? []
+                    dessertList = await HomeViewModel().loadDessertsList() ?? [] // API call to fetch dessert list when view loads. Note: Used a view Model for example to follow MVVM & to perform additional sorting & filtering operatiob
                 }
             }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .listStyle(PlainListStyle())
+            .navigationViewStyle(StackNavigationViewStyle()) // Avoids list view being attached to leading edge in iPad views
+            .listStyle(PlainListStyle()) // Avoid additional background color around list view
         }
     }
 }
@@ -66,6 +68,7 @@ struct HomeView: View {
 
 // MARK: - Reusable Views
 
+// Reusable Heading view
 struct HeadingView: View {
      var text: String
     
@@ -78,7 +81,7 @@ struct HeadingView: View {
     }
 }
 
-// TextField can be reused
+// Reusable clipped view for Search
 struct ClippedTextField: View {
     @Binding var text: String
     
@@ -90,7 +93,7 @@ struct ClippedTextField: View {
     }
 }
 
-// scroll index can be reused
+// Reusable Scroll Index for Dessert class
 struct ScrollIndexView: View {
     var dessertList: [Dessert]
     var proxy: ScrollViewProxy
@@ -136,7 +139,7 @@ struct ScrollIndexView: View {
     }
 }
 
-
+// Reusable Image View
 struct ImageView: View {
     let imageURL: String?
     

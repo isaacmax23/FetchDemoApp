@@ -13,7 +13,7 @@ struct Receipe: Codable {
     let meals: [Dessert]
 }
 
-// wrapper struct
+// wrapper struct to fetch meal recipe
 struct MealsResponse: Codable {
     let meals: [Meal]
 }

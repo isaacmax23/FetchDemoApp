@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct ReceipeAppApp: App {
+struct ReceipeApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()

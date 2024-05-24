@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+// Detailed view of dessert receipe with instructions & ingredients
 struct DessertMainView: View {
     @State var meal: Meal? = nil
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
@@ -46,7 +47,7 @@ struct DessertMainView: View {
         .padding(.all)
         .task {
             do{
-             meal = try await ReceipeAPI().fetchReceipe(mealID: mealId)
+             meal = try await ReceipeAPI().fetchReceipe(mealID: mealId) // directly call the fetch meal receipe API
             } catch {
                 meal = nil
             }
