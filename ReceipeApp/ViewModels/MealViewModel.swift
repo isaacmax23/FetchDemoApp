@@ -24,13 +24,13 @@ class MealViewModel: ObservableObject {
                     self.meal = meal
                 }
             } catch RecipeError.invalidURL {
-                // Handle invalid URL error
+                /// Handle invalid URL error
                 print("Invalid URL")
             } catch RecipeError.invalidJsonFormat(let decodingError) {
-                // Handle JSON decoding error
+                /// Handle JSON decoding error
                 print("JSON Decoding Error: \(decodingError)")
             } catch {
-                // Handle other errors
+                /// Handle other errors
                 print("Unexpected Error: \(error)")
             }
         }

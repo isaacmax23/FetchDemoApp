@@ -21,19 +21,19 @@ class DessertViewModel: ObservableObject {
             do {
                 let dessertList = try await self.receipeManager.fetchDessertList()
                 let filteredAndSortedDesserts = dessertList
-                    .filter { !$0.strMeal.isEmpty && !$0.idMeal.isEmpty } // filter out empty strings
-                    .sorted { $0.strMeal < $1.strMeal } // sort desserts
+                    .filter { !$0.strMeal.isEmpty && !$0.idMeal.isEmpty } /// filter out empty strings
+                    .sorted { $0.strMeal < $1.strMeal } /// sort desserts
                 DispatchQueue.main.async {
                     self.desserts = filteredAndSortedDesserts
                 }
             } catch RecipeError.invalidURL {
-                // Handle invalid URL error
+                /// Handle invalid URL error
                 print("Invalid URL")
             } catch RecipeError.invalidJsonFormat(let decodingError) {
-                // Handle JSON decoding error
+                /// Handle JSON decoding error
                 print("JSON Decoding Error: \(decodingError)")
             } catch {
-                // Handle other errors
+                /// Handle other errors
                 print("Unexpected Error: \(error)")
             }
         }

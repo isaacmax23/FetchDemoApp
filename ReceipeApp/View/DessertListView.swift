@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-// Reusable view that is used in two differnt places as rows
+/// Reusable view that is used in two differnt places as rows
 struct DessertListView: View {
     let name: String
     let url: String?

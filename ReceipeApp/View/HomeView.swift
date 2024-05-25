@@ -17,7 +17,7 @@ struct HomeView: View {
     
     var body: some View {
         
-        // onboarding view appears only for cold start sessions
+        /// onboarding view appears only for cold start sessions
         if !isOnboardingComplete {
             onboading
         } else {
@@ -35,8 +35,8 @@ struct HomeView: View {
                     self.dessertList = value
                 }
             }
-            .navigationViewStyle(.stack) // Avoids list view being attached to leading edge in iPad views
-            .listStyle(.plain) // Avoid additional background color around list view
+            .navigationViewStyle(.stack) /// Avoids list view being attached to leading edge in iPad views
+            .listStyle(.plain) /// Avoid additional background color around list view
         }
     }
     
