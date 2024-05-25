@@ -48,7 +48,7 @@ struct HeadingView: View {
     }
 }
 
-// TextField can be reused
+/// TextField can be reused
 struct ClippedTextField: View {
     @Binding var text: String
     
@@ -60,7 +60,7 @@ struct ClippedTextField: View {
     }
 }
 
-// scroll index can be reused
+/// scroll index can be reused
 struct ScrollIndexView: View {
     var dessertList: [Dessert]
     var proxy: ScrollViewProxy
@@ -70,7 +70,7 @@ struct ScrollIndexView: View {
         return Array(Set(dessertList.compactMap { $0.strMeal.prefix(1).uppercased() })).sorted()
     }
     
-    // Index letter and first meal that matches it
+    /// Index letter and first meal that matches it
     private  var alphabetMealDict: [String: String] {
         var map = [String: String]()
         for dessert in dessertList {

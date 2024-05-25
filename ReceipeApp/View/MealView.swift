@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-// Detailed view of dessert receipe with instructions & ingredients
+/// Detailed view of dessert receipe with instructions & ingredients
 struct MealView: View {
     let mealId: String
     @ObservedObject private var viewModel: MealViewModel = MealViewModel()

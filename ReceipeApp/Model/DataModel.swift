@@ -8,12 +8,12 @@
 import Foundation
 
 
-// wrapper struct to get list of desserts
+/// wrapper struct to get list of desserts
 struct Recipe: Codable {
     let meals: [Dessert]
 }
 
-// wrapper struct to fetch meal recipe
+/// wrapper struct to fetch meal recipe
 struct MealsResponse: Codable {
     let meals: [Meal]
 }
@@ -106,7 +106,7 @@ struct Meal: Codable {
             strIngredient18,
             strIngredient19,
             strIngredient20
-        ].compactMap { $0 }.filter { !$0.isEmpty } // filter out null & empty strings
+        ].compactMap { $0 }.filter { !$0.isEmpty } /// filter out null & empty strings
     }
     
     var measures: [String] {
@@ -131,18 +131,18 @@ struct Meal: Codable {
                strMeasure18,
                strMeasure19,
                strMeasure20
-           ].compactMap { $0 }.filter { !$0.isEmpty } // filter out null & empty strings
+           ].compactMap { $0 }.filter { !$0.isEmpty } /// filter out null & empty strings
        }
     
         var paddedMeasures: [String] {
             var paddedMeasures = measures
                
-               // Pad the measures array with empty strings if it's shorter than ingredients
+               /// Pad the measures array with empty strings if it's shorter than ingredients
                while paddedMeasures.count < ingredients.count {
                    paddedMeasures.append("")
                }
             
-            // if there are extra in measures array they should be removed
+            /// if there are extra in measures array they should be removed
             while paddedMeasures.count > ingredients.count {
                 paddedMeasures.removeLast()
             }
