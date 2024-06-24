@@ -27,8 +27,8 @@ struct MealView: View {
             }
         }
         .padding(.all)
-        .onAppear {
-            viewModel.fetchMeal(withId: mealId)
+        .task {
+           viewModel.fetchMeal(withId: mealId)
         }
         .onReceive(viewModel.$meal) { meal in
             self.meal = meal

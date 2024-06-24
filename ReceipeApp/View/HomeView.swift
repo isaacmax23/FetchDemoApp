@@ -6,13 +6,10 @@
 //
 
 import SwiftUI
-
 struct HomeView: View {
-    @State private var dessertList: [Dessert] = [Dessert]()
     @State private var searchText = ""
     @State private var isOnboardingComplete = false
     @State private var isLoading = false
-    @State private var hasFetchedData = false
     @ObservedObject private var viewModel: DessertViewModel = DessertViewModel()
     
     var body: some View {
@@ -22,19 +19,6 @@ struct HomeView: View {
             onboading
         } else {
             homePage
-            .onAppear {
-                if !hasFetchedData {
-                    isLoading = true
-                    viewModel.fetchDesserts()
-                    hasFetchedData = true
-                }
-            }
-            .onReceive(viewModel.$desserts) { value in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                    isLoading = false
-                    self.dessertList = value
-                }
-            }
             .navigationViewStyle(.stack) /// Avoids list view being attached to leading edge in iPad views
             .listStyle(.plain) /// Avoid additional background color around list view
         }
@@ -42,12 +26,10 @@ struct HomeView: View {
     
     private var onboading: some View {
         OnboardingView()
-            .onAppear {
-               // Use a Timer to change the view to home after 5 seconds
-               DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                   isOnboardingComplete = true
-               }
-           }
+            .task {
+                try? await Task.sleep(nanoseconds: 1 * 1_000_000_000) // 3 seconds delay
+                isOnboardingComplete = true
+            }
     }
     
     private var homePage: some View {
@@ -60,23 +42,22 @@ struct HomeView: View {
                         .frame(alignment: .top)
                     desserts
                 }
-                .onAppear {
-                    if !hasFetchedData {
+                .task {
+                    if !viewModel.hasFetchedData {
                         isLoading = true
                         viewModel.fetchDesserts()
-                        hasFetchedData = true
+                        viewModel.hasFetchedData = true
                     }
                 }
                 .onReceive(viewModel.$desserts) { value in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+
+                    if !value.isEmpty {
                         isLoading = false
-                        self.dessertList = value
                     }
                 }
+              
             }
-            .navigationViewStyle(.stack)
-            .listStyle(.plain)
-            
+
             if isLoading {
                 LoadingView()
                     .ignoresSafeArea(.all)
@@ -87,7 +68,7 @@ struct HomeView: View {
     private var desserts: some View {
         ScrollViewReader { proxy in
             HStack {
-                List(dessertList.filter {
+                List(viewModel.desserts.filter {
                     self.searchText.isEmpty ||
                     $0.strMeal.localizedCaseInsensitiveContains(searchText)
                 }) { dessert in
@@ -99,12 +80,14 @@ struct HomeView: View {
                     }
                 }
                 Spacer()
-                ScrollIndexView(dessertList: dessertList , proxy: proxy)
+                ScrollIndexView(dessertList: viewModel.desserts , proxy: proxy)
             }
         }
         .padding()
     }
+
 }
+
 
 #Preview {
     HomeView()

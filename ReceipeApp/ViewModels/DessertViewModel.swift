@@ -10,7 +10,9 @@ import Combine
 
 class DessertViewModel: ObservableObject {
     @Published var desserts: [Dessert] = []
+    @Published var hasFetchedData = false
     private var receipeManager: ReceipeService
+    private var fetchTask: Task<Void, Never>? = nil
     
     init(receipeManager: ReceipeService = ReceipeManager()) {
         self.receipeManager = receipeManager
@@ -23,9 +25,7 @@ class DessertViewModel: ObservableObject {
                 let filteredAndSortedDesserts = dessertList
                     .filter { !$0.strMeal.isEmpty && !$0.idMeal.isEmpty } /// filter out empty strings
                     .sorted { $0.strMeal < $1.strMeal } /// sort desserts
-                DispatchQueue.main.async {
-                    self.desserts = filteredAndSortedDesserts
-                }
+                await updateDessertsList(value: filteredAndSortedDesserts)
             } catch RecipeError.invalidURL {
                 /// Handle invalid URL error
                 print("Invalid URL")
@@ -38,5 +38,12 @@ class DessertViewModel: ObservableObject {
             }
         }
     }
+
+        @MainActor
+        private func updateDessertsList(value: [Dessert]) {
+            self.desserts = value 
+    //        isLoading = false
+        }
+ 
 }
 

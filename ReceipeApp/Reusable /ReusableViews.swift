@@ -111,12 +111,25 @@ struct ImageView: View {
     let imageURL: String?
     
     var body: some View {
-        AsyncImage(url: URL(string: imageURL ?? "")) { image in
-            image.resizable()
-        } placeholder: {
-            Text("No Image :(")
-        }
-        .frame(width: 100, height: 100)
-        .clipShape(.circle)
+        
+        if let imageURL = imageURL, let url = URL(string: imageURL) {
+               AsyncImage(url: url) { phase in
+                   switch phase {
+                   case .empty:
+                       ProgressView("Loading...")
+                   case .success(let image):
+                       image
+                           .resizable()
+                           .scaledToFit()
+                           .frame(width: 100, height: 100)
+                           .clipShape(.circle)
+                   case .failure:
+                       Text("Sorry, no image found")
+                   @unknown default:
+                       Text("Sorry, no image found")
+                   }
+               }
+           }
+       
     }
 }
